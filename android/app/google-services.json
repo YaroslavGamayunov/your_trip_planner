@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "942400990206",
+    "project_id": "your-trip-planner-fc526",
+    "storage_bucket": "your-trip-planner-fc526.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942400990206:android:2b38a1eeed0a9fd2b9eeaf",
+        "android_client_info": {
+          "package_name": "com.yaroslavgamayunov.yourtripplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942400990206-jpt49prgamc0i2k514377b1ujkhvgj58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL3wFrhUrb2kokJfP-rpQ7VcShm1JVdvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942400990206-jpt49prgamc0i2k514377b1ujkhvgj58.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
