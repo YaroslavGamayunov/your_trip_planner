@@ -1,4 +1,4 @@
-package com.yaroslavgamayunov.yourtripplanner.your_trip_planner
+package com.yaroslavgamayunov.yourtripplanner
 
 import io.flutter.embedding.android.FlutterActivity
 
