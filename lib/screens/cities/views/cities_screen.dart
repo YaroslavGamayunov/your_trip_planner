@@ -36,7 +36,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
             name: doc["name"],
             description: doc["description"],
             imageUrl: doc["imageUrl"],
-            id: doc["id"]))
+            id: doc.id))
         .toList();
   }
 

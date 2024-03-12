@@ -18,24 +18,24 @@ class RouteScreen extends StatefulWidget {
 
 class _RouteScreenState extends State<RouteScreen> {
   List<AttractionItem> items = [
-    AttractionItem(
-        name: "Park",
-        description: "Best place to visit",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        geoLocation: "kskdk dkdkdk"),
-    AttractionItem(
-        name: "ParkParkParkParkParkParkPark",
-        description: "Best place to visit",
-        imageUrl:
-            "https://1.img-dpreview.com/files/p/TS560x560~forums/62803172/ae5fffae14814b88b8eb7551ef16ea84",
-        geoLocation: "kskdk dkdkdk"),
-    AttractionItem(
-        name: "Park",
-        description: "Best place to visit",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        geoLocation: "kskdk dkdkdk")
+    // AttractionItem(
+    //     name: "Park",
+    //     description: "Best place to visit",
+    //     imageUrl:
+    //         "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
+    //     geoLocation: "kskdk dkdkdk"),
+    // AttractionItem(
+    //     name: "ParkParkParkParkParkParkPark",
+    //     description: "Best place to visit",
+    //     imageUrl:
+    //         "https://1.img-dpreview.com/files/p/TS560x560~forums/62803172/ae5fffae14814b88b8eb7551ef16ea84",
+    //     geoLocation: "kskdk dkdkdk"),
+    // AttractionItem(
+    //     name: "Park",
+    //     description: "Best place to visit",
+    //     imageUrl:
+    //         "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
+    //     geoLocation: "kskdk dkdkdk")
   ];
 
   @override
@@ -76,14 +76,11 @@ class _RouteScreenState extends State<RouteScreen> {
                             itemCount: widget.route.days[index].length + 1,
                             itemBuilder: (BuildContext context, int index2) {
                               if (index2 < widget.route.days[index].length) {
-                                return AspectRatio(
-                                    aspectRatio: 0.65,
-                                    child: AttractionItemWidget(
-                                        item: widget.route.days[index]
-                                            [index2]));
+                                return AttractionItemWidget(
+                                    item: widget.route.days[index][index2]);
                               } else {
                                 return AspectRatio(
-                                    aspectRatio: 0.65,
+                                    aspectRatio: 0.5,
                                     child: Center(
                                       child: IconButton(
                                           onPressed: () {},

@@ -11,37 +11,45 @@ class AttractionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        child: Column(//add this
-            children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: Image.network(item.imageUrl, fit: BoxFit.cover),
-          ),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                item.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium,
+    return AspectRatio(
+        aspectRatio: 0.5,
+        child: GestureDetector(
+          onTap: () {},
+          child: Card(
+            clipBehavior: Clip.hardEdge,
+            child: Column(//add this
+                children: <Widget>[
+              AspectRatio(
+                aspectRatio: 1.0,
+                child: Image.network(item.imageUrl, fit: BoxFit.cover),
               ),
-              Text(item.description),
-              Padding(
-                  padding: EdgeInsets.only(top: 4.0),
-                  child: Row(children: [
-                    const Icon(Icons.location_on, size: 16),
-                    SelectableText(item.geoLocation)
-                  ])),
+              Flexible(
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          Text(item.description),
+                          Spacer(),
+                          Container(
+                              padding: EdgeInsets.only(top: 4.0),
+                              child: Row(children: [
+                                const Icon(Icons.location_on, size: 16),
+                                SelectableText(item.geoLocation)
+                              ])),
+                        ])),
+              ),
             ]),
           ),
-        ]),
-      ),
-    );
+        ));
   }
 }
