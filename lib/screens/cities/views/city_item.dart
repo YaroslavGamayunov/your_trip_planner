@@ -48,8 +48,7 @@ class CityItemWidget extends StatelessWidget {
                               .textTheme
                               .titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold)),
-                      Text(item.description, overflow: TextOverflow.ellipsis),
-                      Text(item.attractionsCount.toString())
+                      Text(item.description, overflow: TextOverflow.ellipsis)
                     ],
                   )),
             )),

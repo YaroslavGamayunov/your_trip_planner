@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:your_trip_planner/screens/cities/domain/item.dart';
 import 'package:your_trip_planner/screens/cities/views/city_item.dart';
@@ -10,89 +11,48 @@ class CitiesScreen extends StatefulWidget {
 }
 
 class _CitiesScreenState extends State<CitiesScreen> {
-  List<CityItem> items = [
-    CityItem(
-        name: "Kostroma",
-        description:
-            "euifief e ehf efhefbeautiful city beautiful city beautiful citybeautiful citybeautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description: "beautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description:
-            "beautiful city beautiful city beautiful citybeautiful citybeautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description: "beautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description: "beautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description: "beautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10),
-    CityItem(
-        name: "Kostroma",
-        description: "beautiful city",
-        imageUrl:
-            "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-        id: 1,
-        attractionsCount: 10)
-  ];
+  List<CityItem> allCities = [];
+  List<CityItem> displayedCities = [];
+  bool isLoading = false;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      // _counter++;
+  @override
+  void initState() {
+    isLoading = true;
+    loadAllCitiesFuture().then((cities) {
+      setState(() {
+        isLoading = false;
+        allCities = List.from(cities);
+        displayedCities = List.from(allCities);
+      });
     });
+    super.initState();
+  }
+
+  Future<List<CityItem>> loadAllCitiesFuture() async {
+    CollectionReference users = FirebaseFirestore.instance.collection('cities');
+    QuerySnapshot snapshot = await users.get();
+    return snapshot.docs
+        .map((doc) => CityItem(
+            name: doc["name"],
+            description: doc["description"],
+            imageUrl: doc["imageUrl"],
+            id: doc["id"]))
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Find cities to visit")),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[createTopSliverAppBar(), createSearchSliverAppBar()];
-        },
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0.0),
-            child: ListView(
-                children: items
-                    .map((item) => Padding(
-                        child: CityItemWidget(item: item),
-                        padding: EdgeInsets.symmetric(vertical: 10.0)))
-                    .toList())),
-      ),
-    );
+        appBar: AppBar(title: const Text("Find cities to visit")),
+        body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                createTopSliverAppBar(),
+                createSearchSliverAppBar()
+              ];
+            },
+            body: buildCitiesList()));
   }
 
   SliverAppBar createTopSliverAppBar() {
@@ -117,8 +77,36 @@ class _CitiesScreenState extends State<CitiesScreen> {
         title: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           height: 40,
-          child:
-              SearchBar(onChanged: (_) {}, leading: const Icon(Icons.search)),
+          child: SearchBar(
+              onChanged: (query) {
+                if (query.isEmpty) {
+                  setState(() {
+                    displayedCities = List.from(allCities);
+                  });
+                } else {
+                  setState(() {
+                    displayedCities = allCities
+                        .where(
+                            (item) => item.name.toLowerCase().startsWith(query))
+                        .toList();
+                  });
+                }
+              },
+              leading: const Icon(Icons.search)),
         ));
+  }
+
+  Widget buildCitiesList() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0.0),
+        child: ListView(
+            children: displayedCities
+                .map((item) => Padding(
+                    child: CityItemWidget(item: item),
+                    padding: EdgeInsets.symmetric(vertical: 10.0)))
+                .toList()));
   }
 }
