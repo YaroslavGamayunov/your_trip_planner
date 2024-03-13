@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:your_trip_planner/screens/city_attractions/domain/item.dart';
-
 class RouteItem {
   final String id;
   final String cityName;

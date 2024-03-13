@@ -102,7 +102,8 @@ class _RouteScreenState extends State<RouteScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+                      padding:
+                          const EdgeInsets.only(top: 32, left: 16, right: 16),
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -111,20 +112,21 @@ class _RouteScreenState extends State<RouteScreen> {
                                     .textTheme
                                     .titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold)),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
                                 onPressed: () {
                                   deleteDay(index);
                                 },
-                                icon: Icon(Icons.close))
+                                icon: const Icon(Icons.close))
                           ])),
                   Padding(
-                      padding: EdgeInsets.only(left: 16, right: 16),
+                      padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Text(DateFormat.yMMMd().format(dateOfDay))),
-                  Container(
+                  SizedBox(
                       height: 380,
                       child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                          padding: const EdgeInsets.only(
+                              top: 16, left: 16, right: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: route.days[index].length + 1,
                           itemBuilder: (BuildContext context, int index2) {
@@ -148,7 +150,7 @@ class _RouteScreenState extends State<RouteScreen> {
                                                       Theme.of(context)
                                                           .primaryColorLight),
                                               icon: const Icon(Icons.add)),
-                                          Text("Add attraction")
+                                          const Text("Add attraction")
                                         ]),
                                   ));
                             }
@@ -156,7 +158,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 ]);
           } else {
             return Padding(
-                padding: EdgeInsets.symmetric(vertical: 32),
+                padding: const EdgeInsets.symmetric(vertical: 32),
                 child: FilledButton(
                   onPressed: addDay,
                   style: FilledButton.styleFrom(
@@ -164,7 +166,7 @@ class _RouteScreenState extends State<RouteScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      const Icon(Icons.add),
                       Text("Add day of trip",
                           style: Theme.of(context)
                               .textTheme
@@ -183,7 +185,7 @@ class _RouteScreenState extends State<RouteScreen> {
     List<Widget> actions = isChanged
         ? [
             Padding(
-                padding: EdgeInsets.only(right: 16.0),
+                padding: const EdgeInsets.only(right: 16.0),
                 child: FilledButton(
                     onPressed: saveRoute, child: const Text("Save")))
           ]
@@ -205,7 +207,7 @@ class _RouteScreenState extends State<RouteScreen> {
               },
               icon: const Icon(Icons.close, color: Colors.white),
               style: FilledButton.styleFrom(
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8))),
                   backgroundColor:
                       Theme.of(context).canvasColor.withOpacity(0.3))))
@@ -257,7 +259,7 @@ class _RouteScreenState extends State<RouteScreen> {
     Navigator.of(context).pop();
     final userId = FirebaseAuth.instance.currentUser?.uid;
     final collection =
-        FirebaseFirestore.instance.collection("/users/${userId}/routes");
+        FirebaseFirestore.instance.collection("/users/$userId/routes");
     collection.doc(route.id).set({
       'cityName': route.cityName,
       'cityId': route.cityId,

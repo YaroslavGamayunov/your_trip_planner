@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:your_trip_planner/screens/city_attractions/views/attraction_item.dart';
 
-import '../../cities/domain/item.dart';
 import '../domain/item.dart';
 
 class AttractionsList extends StatefulWidget {

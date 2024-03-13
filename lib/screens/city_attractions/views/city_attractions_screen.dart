@@ -2,11 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:your_trip_planner/screens/cities/domain/item.dart';
-import 'package:your_trip_planner/screens/cities/views/city_item.dart';
 import 'package:your_trip_planner/screens/route/views/route_screen.dart';
 
-import '../../route/domain/item.dart';
-import '../domain/item.dart';
 import 'attractions_list.dart';
 
 class CityAttractionsScreen extends StatefulWidget {
@@ -32,7 +29,7 @@ class _CityAttractionsScreenState extends State<CityAttractionsScreen> {
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(days: 365)));
 
-            if (picked != null) {
+            if (picked != null && context.mounted) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -54,7 +51,6 @@ class _CityAttractionsScreenState extends State<CityAttractionsScreen> {
 
   SliverLayoutBuilder createTopSliver() {
     return SliverLayoutBuilder(builder: (BuildContext context, constraints) {
-      final scrolled = constraints.scrollOffset > 0;
       final scrollProgress = max(0.0, 1 - constraints.scrollOffset / 240.0);
       return SliverAppBar(
         expandedHeight: 260.0,

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../domain/item.dart';
 
@@ -9,7 +9,7 @@ class AttractionItemWidget extends StatelessWidget {
 
   final void Function() onTap;
 
-  AttractionItemWidget({required this.item, required this.onTap});
+  const AttractionItemWidget({required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

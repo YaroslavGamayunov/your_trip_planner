@@ -20,8 +20,7 @@ class RouteItemWidget extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => RouteScreen(route: item)
-          ));
+                  builder: (context) => RouteScreen(route: item)));
         },
         child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),

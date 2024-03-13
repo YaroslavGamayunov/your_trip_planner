@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:your_trip_planner/screens/cities/domain/item.dart';
 import 'package:your_trip_planner/screens/cities/views/city_item.dart';
 
@@ -19,10 +20,12 @@ class _CitiesScreenState extends State<CitiesScreen> {
   void initState() {
     isLoading = true;
     loadAllCitiesFuture().then((cities) {
-      setState(() {
-        isLoading = false;
-        allCities = List.from(cities);
-        displayedCities = List.from(allCities);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        setState(() {
+          isLoading = false;
+          allCities = List.from(cities);
+          displayedCities = List.from(allCities);
+        });
       });
     });
     super.initState();
@@ -105,8 +108,8 @@ class _CitiesScreenState extends State<CitiesScreen> {
         child: ListView(
             children: displayedCities
                 .map((item) => Padding(
-                    child: CityItemWidget(item: item),
-                    padding: EdgeInsets.symmetric(vertical: 10.0)))
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: CityItemWidget(item: item)))
                 .toList()));
   }
 }
