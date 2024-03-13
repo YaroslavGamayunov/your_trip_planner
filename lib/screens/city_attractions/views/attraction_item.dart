@@ -7,14 +7,16 @@ import '../domain/item.dart';
 class AttractionItemWidget extends StatelessWidget {
   final AttractionItem item;
 
-  AttractionItemWidget({required this.item});
+  final void Function() onTap;
+
+  AttractionItemWidget({required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: 0.5,
+        aspectRatio: 0.45,
         child: GestureDetector(
-          onTap: () {},
+          onTap: onTap,
           child: Card(
             clipBehavior: Clip.hardEdge,
             child: Column(//add this

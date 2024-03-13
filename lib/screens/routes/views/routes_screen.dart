@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:your_trip_planner/screens/routes/domain/item.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:your_trip_planner/screens/routes/views/route_item.dart';
+
+import '../../route/domain/item.dart';
 
 class MyRoutesScreen extends StatefulWidget {
   const MyRoutesScreen({super.key});
@@ -12,48 +18,51 @@ class MyRoutesScreen extends StatefulWidget {
 }
 
 class MyRoutesScreenState extends State<MyRoutesScreen> {
-  List<RouteItem> items = [
-    RouteItem(
-      city: "New York",
-      startDate: "12 may 2023",
-      endDate: "14 august 2024",
-      imageUrl:
-      "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-    ),
-    RouteItem(
-      city: "New York",
-      startDate: "12 may 2023",
-      endDate: "14 august 2024",
-      imageUrl:
-      "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-    ),
-    RouteItem(
-      city: "New York",
-      startDate: "12 may 2023",
-      endDate: "14 august 2024",
-      imageUrl:
-      "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-    ),
-    RouteItem(
-      city: "New York",
-      startDate: "12 may 2023",
-      endDate: "14 august 2024",
-      imageUrl:
-      "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSbFce6-vvQMUXsMdk4sUhHWEFgdo2ivkJp0zkxWeDF3fYd7rPQOdaSJTMpc3zJCuTXM8F8e6v_5dnrnTMT1IKlX24c28hoGtxEIaZsKg",
-    ),
-  ];
+  final Stream<QuerySnapshot> routesStream = FirebaseFirestore.instance
+      .collection("/users/${FirebaseAuth.instance.currentUser?.uid}/routes")
+      .snapshots();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<RouteItem> getRoutesFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      Iterable daysIterable = json.decode(doc["days"]);
+      List<List<String>> days =
+          daysIterable.map((e) => List<String>.from(e)).toList();
+      return RouteItem(
+          cityName: doc["cityName"],
+          cityId: doc["cityId"],
+          startDate: (doc["startDate"] as Timestamp).toDate(),
+          days: days,
+          id: doc.id);
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("My saved routes")),
-        body: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            children: items.map((item) =>
-                Padding(padding: EdgeInsets.symmetric(vertical: 4.0),
-                    child: RouteItemWidget(item: item))
-            ).toList()
-        )
-    );
+        body: buildRoutesList());
+  }
+
+  Widget buildRoutesList() {
+    return StreamBuilder<QuerySnapshot>(
+        stream: routesStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.hasError) {
+            print("has error!!! :${snapshot.hasError}");
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final items = getRoutesFromSnapshot(snapshot.requireData);
+
+          return ListView(
+              children:
+                  items.map((item) => RouteItemWidget(item: item)).toList());
+        });
   }
 }

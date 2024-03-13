@@ -13,46 +13,48 @@ class CityItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: () => {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CityAttractionsScreen(item: item)))
-            },
-        child: Stack(children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(32.0),
-              child: Image.network(
-                item.imageUrl,
-              )),
-          Positioned(
-            bottom: 0,
-            child: Container(
-                child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.zero,
-                  topRight: Radius.circular(16.0),
-                  bottomRight: Radius.circular(16.0),
-                  topLeft: Radius.circular(16.0)),
-              clipBehavior: Clip.hardEdge,
-              child: Container(
-                  color: Theme.of(context).primaryColorLight,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(item.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                      Text(item.description, overflow: TextOverflow.ellipsis)
-                    ],
-                  )),
-            )),
-          )
-        ]));
+    return ConstrainedBox(
+        constraints: BoxConstraints(minHeight: 150.0),
+        child: InkWell(
+            onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CityAttractionsScreen(item: item)))
+                },
+            child: Stack(children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(32.0),
+                  child: Image.network(item.imageUrl)),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                    child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.zero,
+                      topRight: Radius.circular(16.0),
+                      bottomRight: Radius.circular(16.0),
+                      topLeft: Radius.circular(16.0)),
+                  clipBehavior: Clip.hardEdge,
+                  child: Container(
+                      color: Theme.of(context).primaryColorLight,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(item.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                          Text(item.description,
+                              overflow: TextOverflow.ellipsis)
+                        ],
+                      )),
+                )),
+              )
+            ])));
   }
 }

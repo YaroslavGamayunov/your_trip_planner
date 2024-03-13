@@ -36,11 +36,10 @@ class _CityAttractionsScreenState extends State<CityAttractionsScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => RouteScreen(
-                          route: RouteItem(
-                              cityName: widget.item.name,
-                              startDate: picked,
-                              days: []))));
+                      builder: (context) => RouteScreen.newRoute(
+                          cityName: widget.item.name,
+                          cityId: widget.item.id,
+                          startDate: picked)));
             }
           },
           label: const Text("Plan your trip"),
@@ -49,7 +48,7 @@ class _CityAttractionsScreenState extends State<CityAttractionsScreen> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [createTopSliver()];
           },
-          body: AttractionsList(city: widget.item)),
+          body: AttractionsList(cityId: widget.item.id)),
     );
   }
 
